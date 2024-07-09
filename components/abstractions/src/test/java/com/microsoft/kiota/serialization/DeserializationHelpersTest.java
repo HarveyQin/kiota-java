@@ -18,7 +18,7 @@ import java.util.ArrayList;
 class DeserializationHelpersTest {
     private static final String _jsonContentType = "application/json";
     private static final String _charset = "utf-8";
-
+    final ParseNodeFactory mockParseNodeFactory = mock(ParseNodeFactory.class);
     @Test
     void defensive() {
         assertThrows(
@@ -80,7 +80,6 @@ class DeserializationHelpersTest {
                                 setId("123");
                             }
                         });
-        final ParseNodeFactory mockParseNodeFactory = mock(ParseNodeFactory.class);
         when(mockParseNodeFactory.getParseNode(any(), any())).thenReturn(mockParseNode);
         ParseNodeFactoryRegistry.defaultInstance.contentTypeAssociatedFactories.put(
                 _jsonContentType, mockParseNodeFactory);
@@ -102,7 +101,6 @@ class DeserializationHelpersTest {
                                 setId("123");
                             }
                         });
-        final ParseNodeFactory mockParseNodeFactory = mock(ParseNodeFactory.class);
         when(mockParseNodeFactory.getParseNode(any(), any())).thenReturn(mockParseNode);
         ParseNodeFactoryRegistry.defaultInstance.contentTypeAssociatedFactories.put(
                 _jsonContentType, mockParseNodeFactory);
@@ -129,7 +127,6 @@ class DeserializationHelpersTest {
                                         });
                             }
                         });
-        final ParseNodeFactory mockParseNodeFactory = mock(ParseNodeFactory.class);
         when(mockParseNodeFactory.getParseNode(any(), any())).thenReturn(mockParseNode);
         ParseNodeFactoryRegistry.defaultInstance.contentTypeAssociatedFactories.put(
                 _jsonContentType, mockParseNodeFactory);

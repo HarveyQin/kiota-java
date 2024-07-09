@@ -46,6 +46,8 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class OkHttpRequestAdapterTest {
+	final AuthenticationProvider authenticationProviderMock = mock(AuthenticationProvider.class);
+	
     @ParameterizedTest
     @EnumSource(
             value = HttpMethod.class,
@@ -53,8 +55,6 @@ public class OkHttpRequestAdapterTest {
     void postRequestsShouldHaveEmptyBody(HttpMethod method)
             throws Exception { // Unexpected exception thrown: java.lang.IllegalArgumentException:
         // method POST must have a request body.
-        final AuthenticationProvider authenticationProviderMock =
-                mock(AuthenticationProvider.class);
         final var adapter =
                 new OkHttpRequestAdapter(authenticationProviderMock) {
                     public Request test() throws Exception {
@@ -74,7 +74,6 @@ public class OkHttpRequestAdapterTest {
     @ParameterizedTest
     @ValueSource(ints = {200, 201, 202, 203, 206})
     void sendStreamReturnsUsableStream(int statusCode) throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         authenticationProviderMock.authenticateRequest(
                 any(RequestInformation.class), any(Map.class));
         final var text = "my-demo-text";
@@ -117,7 +116,6 @@ public class OkHttpRequestAdapterTest {
     @ParameterizedTest
     @ValueSource(ints = {200, 201, 202, 203, 204})
     void sendStreamReturnsNullOnNoContent(int statusCode) throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         authenticationProviderMock.authenticateRequest(
                 any(RequestInformation.class), any(Map.class));
         final var client =
@@ -146,7 +144,6 @@ public class OkHttpRequestAdapterTest {
     @ParameterizedTest
     @ValueSource(ints = {200, 201, 202, 203, 204, 205})
     void sendReturnsNullOnNoContent(int statusCode) throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         authenticationProviderMock.authenticateRequest(
                 any(RequestInformation.class), any(Map.class));
         final var client =
@@ -175,7 +172,6 @@ public class OkHttpRequestAdapterTest {
     @ParameterizedTest
     @ValueSource(ints = {200, 201, 202, 203})
     void sendReturnsObjectOnContent(int statusCode) throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         authenticationProviderMock.authenticateRequest(
                 any(RequestInformation.class), any(Map.class));
         final var client =
@@ -231,7 +227,6 @@ public class OkHttpRequestAdapterTest {
             List<String> errorMappingCodes,
             boolean expectDeserializedException)
             throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         authenticationProviderMock.authenticateRequest(
                 any(RequestInformation.class), any(Map.class));
         final var client =
@@ -283,7 +278,6 @@ public class OkHttpRequestAdapterTest {
 
     @Test
     void getRequestFromRequestInformationHasCorrectContentLength_JsonPayload() throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         final var requestInformation = new RequestInformation();
         requestInformation.setUri(new URI("https://localhost"));
         ByteArrayInputStream content =
@@ -309,7 +303,6 @@ public class OkHttpRequestAdapterTest {
 
     @Test
     void getRequestFromRequestInformationIncludesContentLength_FilePayload() throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         final var testFile = new File("./src/test/resources/helloWorld.txt");
         final var requestInformation = new RequestInformation();
 
@@ -336,7 +329,6 @@ public class OkHttpRequestAdapterTest {
     @Test
     void getRequestFromRequestInformationWithoutContentLengthOverrideForStreamBody()
             throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         final var testFile = new File("./src/test/resources/helloWorld.txt");
         final var requestInformation = new RequestInformation();
 
@@ -360,7 +352,6 @@ public class OkHttpRequestAdapterTest {
     @Test
     void getRequestFromRequestInformationWithoutContentLengthOverrideForJsonPayload()
             throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         final var requestInformation = new RequestInformation();
         requestInformation.setUri(new URI("https://localhost"));
         ByteArrayInputStream content =
@@ -385,7 +376,6 @@ public class OkHttpRequestAdapterTest {
     @Test
     void getRequestFromRequestInformationWithoutContentLengthOverrideWithEmptyPayload()
             throws Exception {
-        final var authenticationProviderMock = mock(AuthenticationProvider.class);
         final var requestInformation = new RequestInformation();
         requestInformation.setUri(new URI("https://localhost"));
         ByteArrayInputStream content = new ByteArrayInputStream(new byte[0]);

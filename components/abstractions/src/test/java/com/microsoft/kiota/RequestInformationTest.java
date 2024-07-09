@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 class RequestInformationTest {
+	final SerializationWriter writerMock = mock(SerializationWriter.class);
+	
     @Test
     void ThrowsInvalidOperationExceptionWhenBaseUrlNotSet() {
         // Arrange as the request builders would
@@ -187,7 +189,7 @@ class RequestInformationTest {
         final RequestInformation requestInfo = new RequestInformation();
         requestInfo.httpMethod = HttpMethod.POST;
         requestInfo.urlTemplate = "http://localhost/users";
-        final SerializationWriter writerMock = mock(SerializationWriter.class);
+        
         final RequestAdapter requestAdapterMock = createMockRequestAdapter(writerMock);
         requestInfo.setContentFromParsable(
                 requestAdapterMock, "application/json", new TestEntity());
@@ -203,7 +205,7 @@ class RequestInformationTest {
         final RequestInformation requestInfo = new RequestInformation();
         requestInfo.httpMethod = HttpMethod.POST;
         requestInfo.urlTemplate = "http://localhost/users";
-        final SerializationWriter writerMock = mock(SerializationWriter.class);
+
         final RequestAdapter requestAdapterMock = createMockRequestAdapter(writerMock);
         requestInfo.setContentFromParsable(
                 requestAdapterMock, "application/json", new TestEntity[] {new TestEntity()});
@@ -218,7 +220,7 @@ class RequestInformationTest {
         final RequestInformation requestInfo = new RequestInformation();
         requestInfo.httpMethod = HttpMethod.POST;
         requestInfo.urlTemplate = "http://localhost/users";
-        final SerializationWriter writerMock = mock(SerializationWriter.class);
+
         final RequestAdapter requestAdapterMock = createMockRequestAdapter(writerMock);
         requestInfo.setContentFromScalarCollection(
                 requestAdapterMock, "application/json", new String[] {"foo"});
@@ -233,7 +235,7 @@ class RequestInformationTest {
         final RequestInformation requestInfo = new RequestInformation();
         requestInfo.httpMethod = HttpMethod.POST;
         requestInfo.urlTemplate = "http://localhost/users";
-        final SerializationWriter writerMock = mock(SerializationWriter.class);
+
         final RequestAdapter requestAdapterMock = createMockRequestAdapter(writerMock);
         requestInfo.setContentFromScalar(requestAdapterMock, "application/json", "foo");
 
@@ -247,7 +249,7 @@ class RequestInformationTest {
         requestInfo.httpMethod = HttpMethod.POST;
         requestInfo.urlTemplate =
                 "http://localhost/{URITemplate}/ParameterMapping?IsCaseSensitive={IsCaseSensitive}";
-        final SerializationWriter writerMock = mock(SerializationWriter.class);
+
         final RequestAdapter requestAdapterMock = createMockRequestAdapter(writerMock);
 
         final MultipartBody multipartBody = new MultipartBody();
