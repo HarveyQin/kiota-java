@@ -20,7 +20,7 @@ import java.util.ArrayList;
 class SerializationHelpersTest {
     private static final String _jsonContentType = "application/json";
     private static final String _charset = "utf-8";
-
+    final SerializationWriter mockSerializationWriter = mock(SerializationWriter.class);
     @Test
     void defensive() {
         assertThrows(
@@ -45,7 +45,6 @@ class SerializationHelpersTest {
 
     @Test
     void serializesObject() throws IOException {
-        final var mockSerializationWriter = mock(SerializationWriter.class);
         when(mockSerializationWriter.getSerializedContent())
                 .thenReturn(new ByteArrayInputStream("{'id':'123'}".getBytes(_charset)));
         final var mockSerializationWriterFactory = mock(SerializationWriterFactory.class);
@@ -67,7 +66,6 @@ class SerializationHelpersTest {
 
     @Test
     void serializesObjectCollection() throws IOException {
-        final var mockSerializationWriter = mock(SerializationWriter.class);
         when(mockSerializationWriter.getSerializedContent())
                 .thenReturn(new ByteArrayInputStream("[{'id':'123'}]".getBytes(_charset)));
         final var mockSerializationWriterFactory = mock(SerializationWriterFactory.class);
