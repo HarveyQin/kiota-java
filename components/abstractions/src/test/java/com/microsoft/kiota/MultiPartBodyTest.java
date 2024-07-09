@@ -12,6 +12,8 @@ import com.microsoft.kiota.serialization.SerializationWriter;
 import org.junit.jupiter.api.Test;
 
 class MultiPartBodyTest {
+	final SerializationWriter writer = mock(SerializationWriter.class);
+	
     @Test
     void defensive() {
         final MultipartBody multipartBody = new MultipartBody();
@@ -34,14 +36,12 @@ class MultiPartBodyTest {
     @Test
     void requiresRequestAdapter() {
         final MultipartBody multipartBody = new MultipartBody();
-        final SerializationWriter writer = mock(SerializationWriter.class);
         assertThrows(IllegalStateException.class, () -> multipartBody.serialize(writer));
     }
 
     @Test
     void requiresPartsForSerialization() {
         final MultipartBody multipartBody = new MultipartBody();
-        final SerializationWriter writer = mock(SerializationWriter.class);
         final RequestAdapter requestAdapter = mock(RequestAdapter.class);
         multipartBody.requestAdapter = requestAdapter;
         assertThrows(IllegalStateException.class, () -> multipartBody.serialize(writer));
@@ -72,7 +72,6 @@ class MultiPartBodyTest {
     @Test
     void notAddFilename() {
         final MultipartBody multipartBody = new MultipartBody();
-        final SerializationWriter writer = mock(SerializationWriter.class);
         multipartBody.requestAdapter = mock(RequestAdapter.class);
         multipartBody.addOrReplacePart("foo", "bar", "baz");
         multipartBody.serialize(writer);
@@ -82,7 +81,6 @@ class MultiPartBodyTest {
     @Test
     void addFilename() {
         final MultipartBody multipartBody = new MultipartBody();
-        final SerializationWriter writer = mock(SerializationWriter.class);
         multipartBody.requestAdapter = mock(RequestAdapter.class);
         multipartBody.addOrReplacePart("foo", "bar", "baz", "image.png");
         multipartBody.serialize(writer);
