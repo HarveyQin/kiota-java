@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 class MultiPartBodyTest {
 	final SerializationWriter writer = mock(SerializationWriter.class);
-	
+	final RequestAdapter requestAdapter = mock(RequestAdapter.class);
     @Test
     void defensive() {
         final MultipartBody multipartBody = new MultipartBody();
@@ -42,7 +42,6 @@ class MultiPartBodyTest {
     @Test
     void requiresPartsForSerialization() {
         final MultipartBody multipartBody = new MultipartBody();
-        final RequestAdapter requestAdapter = mock(RequestAdapter.class);
         multipartBody.requestAdapter = requestAdapter;
         assertThrows(IllegalStateException.class, () -> multipartBody.serialize(writer));
     }
@@ -50,7 +49,6 @@ class MultiPartBodyTest {
     @Test
     void addsPart() {
         final MultipartBody multipartBody = new MultipartBody();
-        final RequestAdapter requestAdapter = mock(RequestAdapter.class);
         multipartBody.requestAdapter = requestAdapter;
         multipartBody.addOrReplacePart("foo", "bar", "baz");
         final Object result = multipartBody.getPartValue("foo");
@@ -61,7 +59,6 @@ class MultiPartBodyTest {
     @Test
     void removesPart() {
         final MultipartBody multipartBody = new MultipartBody();
-        final RequestAdapter requestAdapter = mock(RequestAdapter.class);
         multipartBody.requestAdapter = requestAdapter;
         multipartBody.addOrReplacePart("foo", "bar", "baz");
         multipartBody.removePart("FOO");
