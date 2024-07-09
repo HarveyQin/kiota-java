@@ -24,12 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AzureIdentityAccessTokenProviderTest {
-
+	final TokenCredential tokenCredential = mock(TokenCredential.class);
     @ParameterizedTest
     @ValueSource(
             strings = {"http://localhost:80/me", "http://127.0.0.1/me", "http://[::1]:8080/me"})
     void testLocalhostHttpUrlIsValid(String urlString) throws URISyntaxException {
-        var tokenCredential = mock(TokenCredential.class);
         when(tokenCredential.getTokenSync(any(TokenRequestContext.class)))
                 .thenReturn(new AccessToken("token", null));
         var accessTokenProvider = new AzureIdentityAccessTokenProvider(tokenCredential, null, "");
@@ -41,7 +40,6 @@ public class AzureIdentityAccessTokenProviderTest {
     @ParameterizedTest
     @ValueSource(strings = {"http://graph.microsoft.com/me"})
     void testNonLocalhostHttpUrlIsInvalid(String urlString) {
-        var tokenCredential = mock(TokenCredential.class);
         var accessTokenProvider = new AzureIdentityAccessTokenProvider(tokenCredential, null, "");
         assertThrows(
                 IllegalArgumentException.class,
@@ -52,7 +50,6 @@ public class AzureIdentityAccessTokenProviderTest {
 
     @Test
     void testKeepUserProvidedScopes() throws URISyntaxException {
-        var tokenCredential = mock(TokenCredential.class);
         String[] userProvidedScopes = {
             "https://graph.microsoft.com/User.Read", "https://graph.microsoft.com/Application.Read"
         };
@@ -64,7 +61,6 @@ public class AzureIdentityAccessTokenProviderTest {
 
     @Test
     void testConfigureDefaultScopeWhenScopesNotProvided() throws URISyntaxException {
-        var tokenCredential = mock(TokenCredential.class);
         var accessTokenProvider =
                 new AzureIdentityAccessTokenProvider(tokenCredential, new String[] {});
         assertScopes(
@@ -77,7 +73,6 @@ public class AzureIdentityAccessTokenProviderTest {
     @NullAndEmptySource
     void testConfigureDefaultScopeWhenScopesNullOrEmpty(String[] nullOrEmptyUserProvidedScopes)
             throws URISyntaxException {
-        var tokenCredential = mock(TokenCredential.class);
         var accessTokenProvider =
                 new AzureIdentityAccessTokenProvider(
                         tokenCredential, new String[] {}, nullOrEmptyUserProvidedScopes);
